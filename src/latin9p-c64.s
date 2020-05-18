@@ -1,0 +1,2684 @@
+;
+; Latin-9P - An 8-bit encoding with the goal of being compatible
+; with both ISO 8859-15 (aka ISO Latin-9) and PETSCII.
+;
+; Characters 20-7E, A1-AC, and AE-FF are identical to ISO 8859-15.
+; 00-1F, 7F (delete), 80-9F, A0 (no-break space), and AD (soft hyphen)
+; are sacrificed for PETSCII characters.
+;
+; Characters 01-02, 05-1F, and 80-9F correspond to PETSCII characters
+; A1-A2, A5-BF, and C0-DF in uppercase mode. PETSCII characters
+; A0 (no-break space), A3 (upper one eighth block), and
+; A4 (lower one eighth block) are unified with ISO 8859-15 characters
+; 20 (space), AF (macron), and 5F (low line), respectively,
+; to make room for the remaining PETSCII characters.
+;
+; Remaining code points are used for the PETSCII arrows and
+; characters unique to lowercase mode:
+;
+; 03 corresponds to PETSCII character 5E (upwards arrow)
+; 04 corresponds to PETSCII character 5F (leftwards arrow)
+; 00 corresponds to PETSCII lowercase character A9 (antidiagonal fill)
+; 7F corresponds to PETSCII lowercase character DE (checkerboard fill)
+; A0 corresponds to PETSCII lowercase character DF (diagonal fill)
+; AD corresponds to PETSCII lowercase character BA (checkmark)
+;
+; 00 |🮙▌▄↑←▏▒▕🮏◤🮇├▗└┐▂|
+; 10 |┌┴┬┤▎▍🮈🮂🮃▃🭿▖▝┘▘▚|
+; 20 | !"#$%&'()*+,-./|
+; 30 |0123456789:;<=>?|
+; 40 |@ABCDEFGHIJKLMNO|
+; 50 |PQRSTUVWXYZ[\]^_|
+; 60 |`abcdefghijklmno|
+; 70 |pqrstuvwxyz{|}~🮖|
+; 80 |─♠🭲🭸🭷🭶🭺🭱🭴╮╰╯🭼╲╱🭽|
+; 90 |🭾●🭻♥🭰╭╳○♣🭵♦┼🮌│π◥|
+; A0 |🮘¡¢£€¥Š§š©ª«¬✓®¯|
+; B0 |°±²³Žµ¶·ž¹º»ŒœŸ¿|
+; C0 |ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏ|
+; D0 |ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß|
+; E0 |àáâãäåæçèéêëìíîï|
+; F0 |ðñòóôõö÷øùúûüýþÿ|
+;
+
+.segment "CHARL9P"
+
+;
+; 00 PETSCII A0-BF in Uppercase Mode
+; (with 3 other PETSCII characters replacing A0, A3, and A4)
+;
+; |🮙▌▄↑←▏▒▕🮏◤🮇├▗└┐▂|
+; |┌┴┬┤▎▍🮈🮂🮃▃🭿▖▝┘▘▚|
+;
+
+; U+1FB99 UPPER RIGHT TO LOWER LEFT FILL
+; A9 in PETSCII lowercase mode.
+.byte %11001100
+.byte %10011001
+.byte %00110011
+.byte %01100110
+.byte %11001100
+.byte %10011001
+.byte %00110011
+.byte %01100110
+
+; U+258C LEFT HALF BLOCK
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+
+; U+2584 LOWER HALF BLOCK
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %11111111
+.byte %11111111
+
+; U+2191 UPWARDS ARROW
+; 5E in PETSCII.
+.byte %00000000
+.byte %00011000
+.byte %00111100
+.byte %01111110
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+2190 LEFTWARDS ARROW
+; 5F in PETSCII.
+.byte %00000000
+.byte %00010000
+.byte %00110000
+.byte %01111111
+.byte %01111111
+.byte %00110000
+.byte %00010000
+.byte %00000000
+
+; U+258F LEFT ONE EIGHTH BLOCK
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+
+; U+2592 MEDIUM SHADE
+.byte %11001100
+.byte %11001100
+.byte %00110011
+.byte %00110011
+.byte %11001100
+.byte %11001100
+.byte %00110011
+.byte %00110011
+
+; U+2595 RIGHT ONE EIGHTH BLOCK
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+
+; U+1FB8F LOWER HALF MEDIUM SHADE
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11001100
+.byte %11001100
+.byte %00110011
+.byte %00110011
+
+; U+25E4 BLACK UPPER LEFT TRIANGLE
+.byte %11111111
+.byte %11111110
+.byte %11111100
+.byte %11111000
+.byte %11110000
+.byte %11100000
+.byte %11000000
+.byte %10000000
+
+; U+1FB87 RIGHT ONE QUARTER BLOCK
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+
+; U+251C BOX DRAWINGS LIGHT VERTICAL AND RIGHT
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011111
+.byte %00011111
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+2597 QUADRANT LOWER RIGHT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00001111
+.byte %00001111
+.byte %00001111
+.byte %00001111
+
+; U+2514 BOX DRAWINGS LIGHT UP AND RIGHT
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011111
+.byte %00011111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+2510 BOX DRAWINGS LIGHT DOWN AND LEFT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111000
+.byte %11111000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+2582 LOWER ONE QUARTER BLOCK
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+
+; U+250C BOX DRAWINGS LIGHT DOWN AND RIGHT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00011111
+.byte %00011111
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+2534 BOX DRAWINGS LIGHT UP AND HORIZONTAL
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+252C BOX DRAWINGS LIGHT DOWN AND HORIZONTAL
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+2524 BOX DRAWINGS LIGHT VERTICAL AND LEFT
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %11111000
+.byte %11111000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+258E LEFT ONE QUARTER BLOCK
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+
+; U+258D LEFT THREE EIGHTHS BLOCK
+.byte %11100000
+.byte %11100000
+.byte %11100000
+.byte %11100000
+.byte %11100000
+.byte %11100000
+.byte %11100000
+.byte %11100000
+
+; U+1FB88 RIGHT THREE EIGHTHS BLOCK
+.byte %00000111
+.byte %00000111
+.byte %00000111
+.byte %00000111
+.byte %00000111
+.byte %00000111
+.byte %00000111
+.byte %00000111
+
+; U+1FB82 UPPER ONE QUARTER BLOCK
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+1FB83 UPPER THREE EIGHTHS BLOCK
+.byte %11111111
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+2583 LOWER THREE EIGHTHS BLOCK
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %11111111
+
+; U+1FB7F RIGHT AND LOWER ONE EIGHTH BLOCK
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %11111111
+.byte %11111111
+
+; U+2596 QUADRANT LOWER LEFT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+
+; U+259D QUADRANT UPPER RIGHT
+.byte %00001111
+.byte %00001111
+.byte %00001111
+.byte %00001111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+2518 BOX DRAWINGS LIGHT UP AND LEFT
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %11111000
+.byte %11111000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+2598 QUADRANT UPPER LEFT
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+259A QUADRANT UPPER LEFT AND LOWER RIGHT
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %11110000
+.byte %00001111
+.byte %00001111
+.byte %00001111
+.byte %00001111
+
+;
+; 20 ASCII Punctuation
+;
+; | !"#$%&'()*+,-./|
+; |0123456789:;<=>?|
+;
+
+; U+0020 SPACE
+; U+00A0 NO-BREAK SPACE
+; Both 20 and A0 in both ISO 8859-15 and PETSCII.
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+0021 EXCLAMATION MARK
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00000000
+
+; U+0022 QUOTATION MARK
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+0023 NUMBER SIGN
+.byte %01100110
+.byte %01100110
+.byte %11111111
+.byte %01100110
+.byte %11111111
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+0024 DOLLAR SIGN
+.byte %00011000
+.byte %00111110
+.byte %01100000
+.byte %00111100
+.byte %00000110
+.byte %01111100
+.byte %00011000
+.byte %00000000
+
+; U+0025 PERCENT SIGN
+.byte %01100010
+.byte %01100110
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %01100110
+.byte %01000110
+.byte %00000000
+
+; U+0026 AMPERSAND
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %00111000
+.byte %01100111
+.byte %01100110
+.byte %00111111
+.byte %00000000
+
+; U+0027 APOSTROPHE
+.byte %00000110
+.byte %00001100
+.byte %00011000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+0028 LEFT PARENTHESIS
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00011000
+.byte %00001100
+.byte %00000000
+
+; U+0029 RIGHT PARENTHESIS
+.byte %00110000
+.byte %00011000
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %00000000
+
+; U+002A ASTERISK
+.byte %00000000
+.byte %01100110
+.byte %00111100
+.byte %11111111
+.byte %00111100
+.byte %01100110
+.byte %00000000
+.byte %00000000
+
+; U+002B PLUS SIGN
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %01111110
+.byte %00011000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+
+; U+002C COMMA
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %00110000
+
+; U+002D HYPHEN-MINUS
+; U+00AD SOFT HYPHEN
+; Both 2D and AD in ISO 8859-15.
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %01111110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+002E FULL STOP
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+002F SOLIDUS
+.byte %00000000
+.byte %00000011
+.byte %00000110
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %01100000
+.byte %00000000
+
+; U+0030 DIGIT ZERO
+.byte %00111100
+.byte %01100110
+.byte %01101110
+.byte %01110110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0031 DIGIT ONE
+.byte %00011000
+.byte %00011000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %01111110
+.byte %00000000
+
+; U+0032 DIGIT TWO
+.byte %00111100
+.byte %01100110
+.byte %00000110
+.byte %00001100
+.byte %00110000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+0033 DIGIT THREE
+.byte %00111100
+.byte %01100110
+.byte %00000110
+.byte %00011100
+.byte %00000110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0034 DIGIT FOUR
+.byte %00000110
+.byte %00001110
+.byte %00011110
+.byte %01100110
+.byte %01111111
+.byte %00000110
+.byte %00000110
+.byte %00000000
+
+; U+0035 DIGIT FIVE
+.byte %01111110
+.byte %01100000
+.byte %01111100
+.byte %00000110
+.byte %00000110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0036 DIGIT SIX
+.byte %00111100
+.byte %01100110
+.byte %01100000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0037 DIGIT SEVEN
+.byte %01111110
+.byte %01100110
+.byte %00001100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+0038 DIGIT EIGHT
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0039 DIGIT NINE
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+003A COLON
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+
+; U+003B SEMICOLON
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %00110000
+
+; U+003C LESS-THAN SIGN
+.byte %00001110
+.byte %00011000
+.byte %00110000
+.byte %01100000
+.byte %00110000
+.byte %00011000
+.byte %00001110
+.byte %00000000
+
+; U+003D EQUALS SIGN
+.byte %00000000
+.byte %00000000
+.byte %01111110
+.byte %00000000
+.byte %01111110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+003E GREATER-THAN SIGN
+.byte %01110000
+.byte %00011000
+.byte %00001100
+.byte %00000110
+.byte %00001100
+.byte %00011000
+.byte %01110000
+.byte %00000000
+
+; U+003F QUESTION MARK
+.byte %00111100
+.byte %01100110
+.byte %00000110
+.byte %00001100
+.byte %00011000
+.byte %00000000
+.byte %00011000
+.byte %00000000
+
+;
+; 40 ASCII Uppercase
+; (with 1 PETSCII character unified with 5F)
+;
+; |@ABCDEFGHIJKLMNO|
+; |PQRSTUVWXYZ[\]^_|
+;
+
+; U+0040 COMMERCIAL AT
+.byte %00111100
+.byte %01100110
+.byte %01101110
+.byte %01101110
+.byte %01100000
+.byte %01100010
+.byte %00111100
+.byte %00000000
+
+; U+0041 LATIN CAPITAL LETTER A
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+0042 LATIN CAPITAL LETTER B
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %00000000
+
+; U+0043 LATIN CAPITAL LETTER C
+.byte %00111100
+.byte %01100110
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0044 LATIN CAPITAL LETTER D
+.byte %01111000
+.byte %01101100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01101100
+.byte %01111000
+.byte %00000000
+
+; U+0045 LATIN CAPITAL LETTER E
+.byte %01111110
+.byte %01100000
+.byte %01100000
+.byte %01111000
+.byte %01100000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+0046 LATIN CAPITAL LETTER F
+.byte %01111110
+.byte %01100000
+.byte %01100000
+.byte %01111000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %00000000
+
+; U+0047 LATIN CAPITAL LETTER G
+.byte %00111100
+.byte %01100110
+.byte %01100000
+.byte %01101110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0048 LATIN CAPITAL LETTER H
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+0049 LATIN CAPITAL LETTER I
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+004A LATIN CAPITAL LETTER J
+.byte %00011110
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %01101100
+.byte %00111000
+.byte %00000000
+
+; U+004B LATIN CAPITAL LETTER K
+.byte %01100110
+.byte %01101100
+.byte %01111000
+.byte %01110000
+.byte %01111000
+.byte %01101100
+.byte %01100110
+.byte %00000000
+
+; U+004C LATIN CAPITAL LETTER L
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+004D LATIN CAPITAL LETTER M
+.byte %01100011
+.byte %01110111
+.byte %01111111
+.byte %01101011
+.byte %01100011
+.byte %01100011
+.byte %01100011
+.byte %00000000
+
+; U+004E LATIN CAPITAL LETTER N
+.byte %01100110
+.byte %01110110
+.byte %01111110
+.byte %01111110
+.byte %01101110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+004F LATIN CAPITAL LETTER O
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0050 LATIN CAPITAL LETTER P
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %00000000
+
+; U+0051 LATIN CAPITAL LETTER Q
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00001110
+.byte %00000000
+
+; U+0052 LATIN CAPITAL LETTER R
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %01111000
+.byte %01101100
+.byte %01100110
+.byte %00000000
+
+; U+0053 LATIN CAPITAL LETTER S
+.byte %00111100
+.byte %01100110
+.byte %01100000
+.byte %00111100
+.byte %00000110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0054 LATIN CAPITAL LETTER T
+.byte %01111110
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+0055 LATIN CAPITAL LETTER U
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0056 LATIN CAPITAL LETTER V
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00000000
+
+; U+0057 LATIN CAPITAL LETTER W
+.byte %01100011
+.byte %01100011
+.byte %01100011
+.byte %01101011
+.byte %01111111
+.byte %01110111
+.byte %01100011
+.byte %00000000
+
+; U+0058 LATIN CAPITAL LETTER X
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+0059 LATIN CAPITAL LETTER Y
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+005A LATIN CAPITAL LETTER Z
+.byte %01111110
+.byte %00000110
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+005B LEFT SQUARE BRACKET
+.byte %00111100
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00111100
+.byte %00000000
+
+; U+005C REVERSE SOLIDUS
+.byte %00000000
+.byte %01100000
+.byte %00110000
+.byte %00011000
+.byte %00001100
+.byte %00000110
+.byte %00000011
+.byte %00000000
+
+; U+005D RIGHT SQUARE BRACKET
+.byte %00111100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00111100
+.byte %00000000
+
+; U+005E CIRCUMFLEX ACCENT
+.byte %00000000
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+005F LOW LINE
+; U+2581 LOWER ONE EIGHTH BLOCK
+; A4 in PETSCII.
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+
+;
+; 60 ASCII Lowercase
+; (with 1 PETSCII character replacing 7F)
+;
+; |`abcdefghijklmno|
+; |pqrstuvwxyz{|}~🮖|
+;
+
+; U+0060 GRAVE ACCENT
+.byte %00110000
+.byte %00011000
+.byte %00001100
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+0061 LATIN SMALL LETTER A
+.byte %00000000
+.byte %00000000
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+0062 LATIN SMALL LETTER B
+.byte %00000000
+.byte %01100000
+.byte %01100000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %00000000
+
+; U+0063 LATIN SMALL LETTER C
+.byte %00000000
+.byte %00000000
+.byte %00111100
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %00111100
+.byte %00000000
+
+; U+0064 LATIN SMALL LETTER D
+.byte %00000000
+.byte %00000110
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+0065 LATIN SMALL LETTER E
+.byte %00000000
+.byte %00000000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100000
+.byte %00111100
+.byte %00000000
+
+; U+0066 LATIN SMALL LETTER F
+.byte %00000000
+.byte %00001110
+.byte %00011000
+.byte %00111110
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+0067 LATIN SMALL LETTER G
+.byte %00000000
+.byte %00000000
+.byte %00111110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000110
+.byte %01111100
+
+; U+0068 LATIN SMALL LETTER H
+.byte %00000000
+.byte %01100000
+.byte %01100000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+0069 LATIN SMALL LETTER I
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+006A LATIN SMALL LETTER J
+.byte %00000000
+.byte %00000110
+.byte %00000000
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00111100
+
+; U+006B LATIN SMALL LETTER K
+.byte %00000000
+.byte %01100000
+.byte %01100000
+.byte %01101100
+.byte %01111000
+.byte %01101100
+.byte %01100110
+.byte %00000000
+
+; U+006C LATIN SMALL LETTER L
+.byte %00000000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+006D LATIN SMALL LETTER M
+.byte %00000000
+.byte %00000000
+.byte %01100110
+.byte %01111111
+.byte %01111111
+.byte %01101011
+.byte %01100011
+.byte %00000000
+
+; U+006E LATIN SMALL LETTER N
+.byte %00000000
+.byte %00000000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+006F LATIN SMALL LETTER O
+.byte %00000000
+.byte %00000000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+0070 LATIN SMALL LETTER P
+.byte %00000000
+.byte %00000000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %01100000
+.byte %01100000
+
+; U+0071 LATIN SMALL LETTER Q
+.byte %00000000
+.byte %00000000
+.byte %00111110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000110
+.byte %00000110
+
+; U+0072 LATIN SMALL LETTER R
+.byte %00000000
+.byte %00000000
+.byte %01111100
+.byte %01100110
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %00000000
+
+; U+0073 LATIN SMALL LETTER S
+.byte %00000000
+.byte %00000000
+.byte %00111110
+.byte %01100000
+.byte %00111100
+.byte %00000110
+.byte %01111100
+.byte %00000000
+
+; U+0074 LATIN SMALL LETTER T
+.byte %00000000
+.byte %00011000
+.byte %01111110
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00001110
+.byte %00000000
+
+; U+0075 LATIN SMALL LETTER U
+.byte %00000000
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+0076 LATIN SMALL LETTER V
+.byte %00000000
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00000000
+
+; U+0077 LATIN SMALL LETTER W
+.byte %00000000
+.byte %00000000
+.byte %01100011
+.byte %01101011
+.byte %01111111
+.byte %00111110
+.byte %00110110
+.byte %00000000
+
+; U+0078 LATIN SMALL LETTER X
+.byte %00000000
+.byte %00000000
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %00000000
+
+; U+0079 LATIN SMALL LETTER Y
+.byte %00000000
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00001100
+.byte %01111000
+
+; U+007A LATIN SMALL LETTER Z
+.byte %00000000
+.byte %00000000
+.byte %01111110
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %01111110
+.byte %00000000
+
+; U+007B LEFT CURLY BRACKET
+.byte %00001110
+.byte %00011000
+.byte %00011000
+.byte %01110000
+.byte %00011000
+.byte %00011000
+.byte %00001110
+.byte %00000000
+
+; U+007C VERTICAL LINE
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+007D RIGHT CURLY BRACKET
+.byte %01110000
+.byte %00011000
+.byte %00011000
+.byte %00001110
+.byte %00011000
+.byte %00011000
+.byte %01110000
+.byte %00000000
+
+; U+007E TILDE
+.byte %00111011
+.byte %01101110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+1FB96 INVERSE CHECKER BOARD FILL
+; DE in PETSCII lowercase mode.
+.byte %00110011
+.byte %00110011
+.byte %11001100
+.byte %11001100
+.byte %00110011
+.byte %00110011
+.byte %11001100
+.byte %11001100
+
+;
+; 80 PETSCII C0-DF in Uppercase Mode
+;
+; |─♠🭲🭸🭷🭶🭺🭱🭴╮╰╯🭼╲╱🭽|
+; |🭾●🭻♥🭰╭╳○♣🭵♦┼🮌│π◥|
+;
+
+; U+2500 BOX DRAWINGS LIGHT HORIZONTAL
+; U+1FB79 HORIZONTAL ONE EIGHTH BLOCK-5
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+2660 BLACK SPADE SUIT
+.byte %00001000
+.byte %00011100
+.byte %00111110
+.byte %01111111
+.byte %01111111
+.byte %00011100
+.byte %00111110
+.byte %00000000
+
+; U+1FB72 VERTICAL ONE EIGHTH BLOCK-4
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+1FB78 HORIZONTAL ONE EIGHTH BLOCK-4
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+1FB77 HORIZONTAL ONE EIGHTH BLOCK-3
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+1FB76 HORIZONTAL ONE EIGHTH BLOCK-2
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+1FB7A HORIZONTAL ONE EIGHTH BLOCK-6
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+.byte %00000000
+
+; U+1FB71 VERTICAL ONE EIGHTH BLOCK-3
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+.byte %00110000
+
+; U+1FB74 VERTICAL ONE EIGHTH BLOCK-6
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+.byte %00001100
+
+; U+256E BOX DRAWINGS LIGHT ARC DOWN AND LEFT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11100000
+.byte %11110000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+
+; U+2570 BOX DRAWINGS LIGHT ARC UP AND RIGHT
+.byte %00011000
+.byte %00011000
+.byte %00011100
+.byte %00001111
+.byte %00000111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+256F BOX DRAWINGS LIGHT ARC UP AND LEFT
+.byte %00011000
+.byte %00011000
+.byte %00111000
+.byte %11110000
+.byte %11100000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+1FB7C LEFT AND LOWER ONE EIGHTH BLOCK
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11111111
+.byte %11111111
+
+; U+2572 BOX DRAWINGS LIGHT DIAGONAL UPPER LEFT TO LOWER RIGHT
+.byte %11000000
+.byte %11100000
+.byte %01110000
+.byte %00111000
+.byte %00011100
+.byte %00001110
+.byte %00000111
+.byte %00000011
+
+; U+2571 BOX DRAWINGS LIGHT DIAGONAL UPPER RIGHT TO LOWER LEFT
+.byte %00000011
+.byte %00000111
+.byte %00001110
+.byte %00011100
+.byte %00111000
+.byte %01110000
+.byte %11100000
+.byte %11000000
+
+; U+1FB7D LEFT AND UPPER ONE EIGHTH BLOCK
+.byte %11111111
+.byte %11111111
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+.byte %11000000
+
+; U+1FB7E RIGHT AND UPPER ONE EIGHTH BLOCK
+.byte %11111111
+.byte %11111111
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+.byte %00000011
+
+; U+2022 BULLET
+; U+25CF BLACK CIRCLE
+.byte %00000000
+.byte %00111100
+.byte %01111110
+.byte %01111110
+.byte %01111110
+.byte %01111110
+.byte %00111100
+.byte %00000000
+
+; U+1FB7B HORIZONTAL ONE EIGHTH BLOCK-7
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %11111111
+.byte %11111111
+.byte %00000000
+
+; U+2665 BLACK HEART SUIT
+.byte %00110110
+.byte %01111111
+.byte %01111111
+.byte %01111111
+.byte %00111110
+.byte %00011100
+.byte %00001000
+.byte %00000000
+
+; U+1FB70 VERTICAL ONE EIGHTH BLOCK-2
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %01100000
+
+; U+256D BOX DRAWINGS LIGHT ARC DOWN AND RIGHT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000111
+.byte %00001111
+.byte %00011100
+.byte %00011000
+.byte %00011000
+
+; U+2573 BOX DRAWINGS LIGHT DIAGONAL CROSS
+.byte %11000011
+.byte %11100111
+.byte %01111110
+.byte %00111100
+.byte %00111100
+.byte %01111110
+.byte %11100111
+.byte %11000011
+
+; U+25CB WHITE CIRCLE
+; U+25E6 WHITE BULLET
+.byte %00000000
+.byte %00111100
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %01111110
+.byte %00111100
+.byte %00000000
+
+; U+2663 BLACK CLUB SUIT
+.byte %00011000
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+1FB75 VERTICAL ONE EIGHTH BLOCK-7
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00000110
+.byte %00000110
+
+; U+2666 BLACK DIAMOND SUIT
+.byte %00001000
+.byte %00011100
+.byte %00111110
+.byte %01111111
+.byte %00111110
+.byte %00011100
+.byte %00001000
+.byte %00000000
+
+; U+253C BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %11111111
+.byte %11111111
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+1FB8C LEFT HALF MEDIUM SHADE
+.byte %11000000
+.byte %11000000
+.byte %00110000
+.byte %00110000
+.byte %11000000
+.byte %11000000
+.byte %00110000
+.byte %00110000
+
+; U+2502 BOX DRAWINGS LIGHT VERTICAL
+; U+1FB73 VERTICAL ONE EIGHTH BLOCK-5
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+03C0 GREEK SMALL LETTER PI
+.byte %00000000
+.byte %00000000
+.byte %00000011
+.byte %00111110
+.byte %01110110
+.byte %00110110
+.byte %00110110
+.byte %00000000
+
+; U+25E5 BLACK UPPER RIGHT TRIANGLE
+.byte %11111111
+.byte %01111111
+.byte %00111111
+.byte %00011111
+.byte %00001111
+.byte %00000111
+.byte %00000011
+.byte %00000001
+
+;
+; A0 ISO 8859-15 Punctuation
+; (with 2 PETSCII characters replacing A0 and AD
+; and 2 PETSCII characters unified with A3 and AF)
+;
+; |🮘¡¢£€¥Š§š©ª«¬✓®¯|
+; |°±²³Žµ¶·ž¹º»ŒœŸ¿|
+;
+
+; U+1FB98 UPPER LEFT TO LOWER RIGHT FILL
+; DF in PETSCII lowercase mode.
+.byte %00110011
+.byte %10011001
+.byte %11001100
+.byte %01100110
+.byte %00110011
+.byte %10011001
+.byte %11001100
+.byte %01100110
+
+; U+00A1 INVERTED EXCLAMATION MARK
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00011000
+
+; U+00A2 CENT SIGN
+.byte %00000000
+.byte %00011000
+.byte %00111100
+.byte %01100000
+.byte %01100000
+.byte %01100000
+.byte %00111100
+.byte %00011000
+
+; U+00A3 POUND SIGN
+; 5C in PETSCII.
+.byte %00001100
+.byte %00010010
+.byte %00110000
+.byte %01111100
+.byte %00110000
+.byte %01100010
+.byte %11111100
+.byte %00000000
+
+; U+20AC EURO SIGN
+.byte %00011110
+.byte %00110011
+.byte %01111000
+.byte %00110000
+.byte %01111000
+.byte %00110011
+.byte %00011110
+.byte %00000000
+
+; U+00A5 YEN SIGN
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %01111110
+.byte %00011000
+.byte %00000000
+
+; U+0160 LATIN CAPITAL LETTER S WITH CARON
+.byte %00110110
+.byte %00011100
+.byte %00111110
+.byte %01100000
+.byte %00111100
+.byte %00000110
+.byte %01111100
+.byte %00000000
+
+; U+00A7 SECTION SIGN
+.byte %00111100
+.byte %01100000
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %00000110
+.byte %00111100
+.byte %00000000
+
+; U+0161 LATIN SMALL LETTER S WITH CARON
+.byte %00110110
+.byte %00011100
+.byte %00111110
+.byte %01100000
+.byte %00111100
+.byte %00000110
+.byte %01111100
+.byte %00000000
+
+; U+00A9 COPYRIGHT SIGN
+.byte %00011100
+.byte %00100010
+.byte %01001101
+.byte %01010001
+.byte %01001101
+.byte %00100010
+.byte %00011100
+.byte %00000000
+
+; U+00AA FEMININE ORDINAL INDICATOR
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+00AB LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+.byte %00000000
+.byte %00011011
+.byte %00110110
+.byte %01101100
+.byte %00110110
+.byte %00011011
+.byte %00000000
+.byte %00000000
+
+; U+00AC NOT SIGN
+.byte %00000000
+.byte %00000000
+.byte %01111110
+.byte %00000110
+.byte %00000110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+2713 CHECK MARK
+; BA in PETSCII lowercase mode.
+.byte %00000001
+.byte %00000011
+.byte %00000110
+.byte %01101100
+.byte %01111000
+.byte %01110000
+.byte %01100000
+.byte %00000000
+
+; U+00AE REGISTERED SIGN
+.byte %00011100
+.byte %00100010
+.byte %01011101
+.byte %01011001
+.byte %01010101
+.byte %00100010
+.byte %00011100
+.byte %00000000
+
+; U+00AF MACRON
+; U+2594 UPPER ONE EIGHTH BLOCK
+; A3 in PETSCII.
+.byte %11111111
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+00B0 DEGREE SIGN
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+00B1 PLUS-MINUS SIGN
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %01111110
+.byte %00011000
+.byte %00011000
+.byte %01111110
+.byte %00000000
+
+; U+00B2 SUPERSCRIPT TWO
+.byte %00111100
+.byte %01100110
+.byte %00011000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+00B3 SUPERSCRIPT THREE
+.byte %00111100
+.byte %01100110
+.byte %00011100
+.byte %01100110
+.byte %00111100
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+017D LATIN CAPITAL LETTER Z WITH CARON
+.byte %00110110
+.byte %00011100
+.byte %01111110
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %01111110
+.byte %00000000
+
+; U+00B5 MICRO SIGN
+.byte %00000000
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %11111110
+.byte %11000000
+
+; U+00B6 PILCROW SIGN
+.byte %01111111
+.byte %11011011
+.byte %11011011
+.byte %01111111
+.byte %00011011
+.byte %00011011
+.byte %00011011
+.byte %00000000
+
+; U+00B7 MIDDLE DOT
+.byte %00000000
+.byte %00000000
+.byte %00000000
+.byte %00011000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+017E LATIN SMALL LETTER Z WITH CARON
+.byte %00110110
+.byte %00011100
+.byte %01111110
+.byte %00001100
+.byte %00011000
+.byte %00110000
+.byte %01111110
+.byte %00000000
+
+; U+00B9 SUPERSCRIPT ONE
+.byte %00011000
+.byte %00011000
+.byte %00111000
+.byte %00011000
+.byte %01111110
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+00BA MASCULINE ORDINAL INDICATOR
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+.byte %00000000
+.byte %00000000
+
+; U+00BB RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+.byte %00000000
+.byte %01101100
+.byte %00110110
+.byte %00011011
+.byte %00110110
+.byte %01101100
+.byte %00000000
+.byte %00000000
+
+; U+0152 LATIN CAPITAL LIGATURE OE
+.byte %00111110
+.byte %01101100
+.byte %01101100
+.byte %01101110
+.byte %01101100
+.byte %01101100
+.byte %00111110
+.byte %00000000
+
+; U+0153 LATIN SMALL LIGATURE OE
+.byte %00000000
+.byte %00000000
+.byte %01111110
+.byte %11011011
+.byte %11011111
+.byte %11011000
+.byte %01111110
+.byte %00000000
+
+; U+0178 LATIN CAPITAL LETTER Y WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+00BF INVERTED QUESTION MARK
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00011000
+.byte %00110000
+.byte %01100000
+.byte %01100110
+.byte %00111100
+
+;
+; C0 ISO 8859-15 Uppercase
+;
+; |ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏ|
+; |ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß|
+;
+
+; U+00C0 LATIN CAPITAL LETTER A WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00C1 LATIN CAPITAL LETTER A WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00C2 LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00C3 LATIN CAPITAL LETTER A WITH TILDE
+.byte %00111011
+.byte %01101110
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00C4 LATIN CAPITAL LETTER A WITH DIAERESIS
+.byte %01000010
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00C5 LATIN CAPITAL LETTER A WITH RING ABOVE
+.byte %00011000
+.byte %00100100
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00C6 LATIN CAPITAL LETTER AE
+.byte %00011110
+.byte %00111100
+.byte %01101100
+.byte %01111110
+.byte %01101100
+.byte %01101100
+.byte %01101110
+.byte %00000000
+
+; U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA
+.byte %00111100
+.byte %01100110
+.byte %01100000
+.byte %01100000
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %01110000
+
+; U+00C8 LATIN CAPITAL LETTER E WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %01111110
+.byte %01100000
+.byte %01111000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+00C9 LATIN CAPITAL LETTER E WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %01111110
+.byte %01100000
+.byte %01111000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+00CA LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+.byte %00011100
+.byte %00110110
+.byte %01111110
+.byte %01100000
+.byte %01111000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+00CB LATIN CAPITAL LETTER E WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %01111110
+.byte %01100000
+.byte %01111000
+.byte %01100000
+.byte %01111110
+.byte %00000000
+
+; U+00CC LATIN CAPITAL LETTER I WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00CD LATIN CAPITAL LETTER I WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00CE LATIN CAPITAL LETTER I WITH CIRCUMFLEX
+.byte %00011100
+.byte %00110110
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00CF LATIN CAPITAL LETTER I WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00D0 LATIN CAPITAL LETTER ETH
+.byte %00111100
+.byte %00110110
+.byte %00110011
+.byte %01111011
+.byte %00110011
+.byte %00110110
+.byte %00111100
+.byte %00000000
+
+; U+00D1 LATIN CAPITAL LETTER N WITH TILDE
+.byte %00111011
+.byte %01101110
+.byte %01110110
+.byte %01111110
+.byte %01111110
+.byte %01101110
+.byte %01100110
+.byte %00000000
+
+; U+00D2 LATIN CAPITAL LETTER O WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00D3 LATIN CAPITAL LETTER O WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00D4 LATIN CAPITAL LETTER O WITH CIRCUMFLEX
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00D5 LATIN CAPITAL LETTER O WITH TILDE
+.byte %00111011
+.byte %01101110
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00D6 LATIN CAPITAL LETTER O WITH DIAERESIS
+.byte %01000010
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00D7 MULTIPLICATION SIGN
+.byte %00000000
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %00000000
+.byte %00000000
+
+; U+00D8 LATIN CAPITAL LETTER O WITH STROKE
+.byte %00111100
+.byte %01100110
+.byte %01101110
+.byte %01111110
+.byte %01110110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00D9 LATIN CAPITAL LETTER U WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00DA LATIN CAPITAL LETTER U WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00DB LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+.byte %00011100
+.byte %00110110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00DC LATIN CAPITAL LETTER U WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00DD LATIN CAPITAL LETTER Y WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00011000
+.byte %00011000
+.byte %00000000
+
+; U+00DE LATIN CAPITAL LETTER THORN
+.byte %01100000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %01100000
+.byte %00000000
+
+; U+00DF LATIN SMALL LETTER SHARP S
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01101100
+.byte %01100110
+.byte %01100110
+.byte %01101100
+.byte %00000000
+
+;
+; E0 ISO 8859-15 Lowercase
+;
+; |àáâãäåæçèéêëìíîï|
+; |ðñòóôõö÷øùúûüýþÿ|
+;
+
+; U+00E0 LATIN SMALL LETTER A WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00E1 LATIN SMALL LETTER A WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00E2 LATIN SMALL LETTER A WITH CIRCUMFLEX
+.byte %00011100
+.byte %00110110
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00E3 LATIN SMALL LETTER A WITH TILDE
+.byte %00111011
+.byte %01101110
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00E4 LATIN SMALL LETTER A WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00E5 LATIN SMALL LETTER A WITH RING ABOVE
+.byte %00111100
+.byte %00100100
+.byte %00111100
+.byte %00000110
+.byte %00111110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00E6 LATIN SMALL LETTER AE
+.byte %00000000
+.byte %00000000
+.byte %01111110
+.byte %00011011
+.byte %01111111
+.byte %11011000
+.byte %01111110
+.byte %00000000
+
+; U+00E7 LATIN SMALL LETTER C WITH CEDILLA
+.byte %00000000
+.byte %00000000
+.byte %00111100
+.byte %01100000
+.byte %01100000
+.byte %00111100
+.byte %00011000
+.byte %01110000
+
+; U+00E8 LATIN SMALL LETTER E WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100000
+.byte %00111100
+.byte %00000000
+
+; U+00E9 LATIN SMALL LETTER E WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100000
+.byte %00111100
+.byte %00000000
+
+; U+00EA LATIN SMALL LETTER E WITH CIRCUMFLEX
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100000
+.byte %00111100
+.byte %00000000
+
+; U+00EB LATIN SMALL LETTER E WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %00111100
+.byte %01100110
+.byte %01111110
+.byte %01100000
+.byte %00111100
+.byte %00000000
+
+; U+00EC LATIN SMALL LETTER I WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00000000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00ED LATIN SMALL LETTER I WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00000000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00EE LATIN SMALL LETTER I WITH CIRCUMFLEX
+.byte %00111100
+.byte %01100110
+.byte %00000000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00EF LATIN SMALL LETTER I WITH DIAERESIS
+.byte %00000000
+.byte %00100100
+.byte %00000000
+.byte %00111000
+.byte %00011000
+.byte %00011000
+.byte %00111100
+.byte %00000000
+
+; U+00F0 LATIN SMALL LETTER ETH
+.byte %00000110
+.byte %00111100
+.byte %00001110
+.byte %00111110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00F1 LATIN SMALL LETTER N WITH TILDE
+.byte %00111011
+.byte %01101110
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00000000
+
+; U+00F2 LATIN SMALL LETTER O WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00F3 LATIN SMALL LETTER O WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00F4 LATIN SMALL LETTER O WITH CIRCUMFLEX
+.byte %00111100
+.byte %01100110
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00F5 LATIN SMALL LETTER O WITH TILDE
+.byte %00111011
+.byte %01101110
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00F6 LATIN SMALL LETTER O WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %00111100
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111100
+.byte %00000000
+
+; U+00F7 DIVISION SIGN
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %01111110
+.byte %00000000
+.byte %00011000
+.byte %00000000
+.byte %00000000
+
+; U+00F8 LATIN SMALL LETTER O WITH STROKE
+.byte %00000000
+.byte %00000000
+.byte %00111100
+.byte %01101110
+.byte %01111110
+.byte %01110110
+.byte %00111100
+.byte %00000000
+
+; U+00F9 LATIN SMALL LETTER U WITH GRAVE
+.byte %00110000
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00FA LATIN SMALL LETTER U WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00FB LATIN SMALL LETTER U WITH CIRCUMFLEX
+.byte %00011100
+.byte %00110110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00FC LATIN SMALL LETTER U WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00000000
+
+; U+00FD LATIN SMALL LETTER Y WITH ACUTE
+.byte %00001100
+.byte %00011000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00001100
+.byte %01111000
+
+; U+00FE LATIN SMALL LETTER THORN
+.byte %01100000
+.byte %01100000
+.byte %01111100
+.byte %01100110
+.byte %01100110
+.byte %01111100
+.byte %01100000
+.byte %01100000
+
+; U+00FF LATIN SMALL LETTER Y WITH DIAERESIS
+.byte %00100100
+.byte %00000000
+.byte %01100110
+.byte %01100110
+.byte %01100110
+.byte %00111110
+.byte %00001100
+.byte %01111000
