@@ -38,6 +38,9 @@ need to be made following and on top of the previous ones:
   VIC-20) or `FE` (for compatibility with the C64 or C128)
 * Map `DF` to `FF`
 
+Source code to perform these conversions and more
+is available in [src/petscii8.s](src/petscii8.s).
+
 ## Mapping from PETSCII to Latin-9P
 
 Mapping from PETSCII to Latin-9P is a bit more involved.
