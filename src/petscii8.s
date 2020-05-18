@@ -1,7 +1,7 @@
 ; Conversion routines for PETSCII-8 encoding.
 
 ; PETSCII uppercase to PETSCII-8
-pet2p8	cmp #$5C	; if A = $5C return $E3 (pound sign)
+pet2p8	cmp #$5C	; if A = $5C return A ^ $BF (pound sign)
 	beq p8pnds
 	cmp #$5E	; if A < $5E return A (no remap)
 	bcc p8norm
@@ -15,7 +15,7 @@ pet2p8	cmp #$5C	; if A = $5C return $E3 (pound sign)
 	bcc p8fddn
 p8pi	lda #$DE	; return $DE (pi)
 	rts
-p8pnds	lda #$E3	; return $E3 (pound sign)
+p8pnds	eor #$BF	; return A ^ $BF (maps 5C to E3)
 	rts
 p8fdup	eor #$A0	; return A ^ $A0 (fold from 60 range up to C0 range)
 	rts
@@ -76,8 +76,8 @@ p82pet	cmp #$60	; if A < $60 return A (no remap); if A = $60 return $3F (?)
 	cmp #$E0	; if A < $E0 return A (no remap); if A = $E0 return A ^ $20 (maps E0 to C0)
 	bcc p8norm
 	beq p8lcaz
-	cmp #$E3	; if A = $E3 return $5C (pound sign)
-	beq p8pndp
+	cmp #$E3	; if A = $E3 return A ^ $BF (maps E3 to 5C)
+	beq p8pnds
 	cmp #$E6	; if A = $E6 return $D1 (black circle)
 	beq p8blcr
 	cmp #$E8	; if A = $E8 return $DE (pi)
@@ -95,8 +95,6 @@ p82pet	cmp #$60	; if A < $60 return A (no remap); if A = $60 return $3F (?)
 	cmp #$FD	; if A >= $FD return A ^ $20 (maps FD, FE, FF to DD, DE, DF)
 	bcs p8lcaz
 p8frgn	lda #$3F	; return $3F (unmappable character)
-	rts
-p8pndp	lda #$5C	; return $5C (pound sign in PETSCII)
 	rts
 p8blcr	lda #$D1	; return $D1 (black circle)
 	rts
