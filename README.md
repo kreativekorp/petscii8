@@ -73,12 +73,18 @@ need to be made following and on top of the previous ones:
 * Map `9E` to `7F`
 * Map `9F` to `A0`
 
+Source code to perform these conversions and more
+is available in [src/latin9p.s](src/latin9p.s).
+
 ## Mapping from ISO 8859-15 to Latin-9P
 
 This is trivial. The only substitutions to be made are:
 
 * Map `A0` to `20`
 * Map `AD` to `2D`
+
+Source code to perform this conversion and more
+is available in [src/latin9p.s](src/latin9p.s).
 
 ## Mapping from PETSCII-8 to Unicode
 
